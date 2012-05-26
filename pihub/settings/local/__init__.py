@@ -1,4 +1,3 @@
-#@PydevCodeAnalysisIgnore
 from pihub.settings import *
 
 import logging

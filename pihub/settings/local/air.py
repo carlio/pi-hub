@@ -6,7 +6,7 @@ BROKER_URL = "django://"
 INSTALLED_APPS += ["kombu.transport.django"]
 
 STATICFILES_DIRS += [
-    '/Users/carlcrowder/code/pi-hib/pihub/static/'
+    '/Users/carlcrowder/code/pi-hub/pihub/static/'
 ]
 
 DATABASES = {

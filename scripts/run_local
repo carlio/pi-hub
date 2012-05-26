@@ -1,2 +1,2 @@
 #!/bin/bash
-scripts/manage.py runserver $@
+scripts/manage runserver $@

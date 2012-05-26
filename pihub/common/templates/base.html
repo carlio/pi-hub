@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+ <head>
+  <title>{% block page_title %}PiHub{% endblock %}</title>
+  
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="/static/kickstart/css/kickstart.css" media="all" />
+
+  <link rel="stylesheet" type="text/css" href="/static/css/style.css" media="all" />
+ </head>
+
+ <body>
+ 
+  <a id="top-of-page"></a>
+  
+  <div id="wrap" class="clearfix">
+  
+   {% block all_content %}
+
+    <div class='col_12'>
+     
+     <div class='col_3'>
+     {% block sidebar %}
+     {% endblock %}
+     </div>
+
+     <div class='col_9'>
+     {% block content %}
+     {% endblock %}
+     </div>
+     
+    </div>   
+   {% endblock %}
+  
+  </div>
+ 
+  {% block scripts %}
+  <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
+  <!--[if lt IE 9]><script src="/static/js/html5.js"></script><![endif]-->
+  <script type="text/javascript" src="/static/kickstart/js/prettify.js"></script>
+  <script type="text/javascript" src="/static/kickstart/js/kickstart.js"></script>
+  {% block extra_scripts %}{% endblock %}
+  {% endblock %}
+
+ </body>
+
+</html>
