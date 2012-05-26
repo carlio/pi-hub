@@ -20,7 +20,7 @@ DATABASES = {
     }
 }
 
-CACHE_FOLDER = '/Users/carlcrowder/code/pi-hib/.pypicache'
+PACKAGE_DIRECTORY = '/Users/carlcrowder/code/pi-hub/.pypicache'
 
 DEBUG = True
 
