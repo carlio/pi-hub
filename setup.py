@@ -46,24 +46,6 @@ _install_requires = [
             'flup',
        ]
 
-if 'PIHUB_SETTINGS' in os.environ:
-    # environment specific dependencies
-    settings = os.environ['PIHUB_SETTINGS']
-    if '.local.' in settings:
-        _install_requires += [
-                              ]
-    if settings.endswith('.dev'):
-        _install_requires += [
-        ]
-
-    if settings.endswith('.live'):
-        _install_requires += [
-        ]
-else:
-    import warnings
-    warnings.warn("No PIHUB_SETTINGS value so no environment-specific dependencies included")
-
-
 setup( name='pi-hub',
        version=_version,
        packages=_packages,

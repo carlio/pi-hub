@@ -1,0 +1,3 @@
+recursive-include pihub/*/templates *
+recursive-include pihub/static *
+recursive-include pihub supervisord.conf

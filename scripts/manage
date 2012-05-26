@@ -1,0 +1,31 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+if [ -f $DIR/django-admin.py ]
+then
+  # this means we're probably in a virtualenv next to the django-admin script
+  ADMIN="$DIR/python $DIR/django-admin.py"
+else
+  # otherwise, we're in the root of a checkout, and probably being run from
+  # the scripts folder, so let's assume a virtualenv is called ".env" for now
+  ADMIN=.env/bin/django-admin.py
+fi
+
+SETTINGS=$PIHUB_SETTINGS
+if [ -z $SETTINGS ]
+then
+  SETTINGS=$1
+  if [ -z $SETTINGS ]
+  then
+    echo "Settings must be provided either as the first argument or as the PIHUB_SETTINGS environment variable"
+    exit 1
+  else
+    shift
+  fi
+fi
+
+COMMAND=$1
+shift
+
+echo "Using settings $SETTINGS, running $ADMIN $COMMAND with arguments $@"
+$ADMIN $COMMAND --settings=$SETTINGS $@

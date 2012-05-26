@@ -25,3 +25,12 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#Eclipse guff
+.project
+.settings
+.pydevproject
+
+#local dev data
+.env
+.pypicache
