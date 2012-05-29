@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 
 
 urlpatterns = patterns('',
-    #url(r'', include('pihub.packages.urls', namespace='packages')),
+    url(r'^proxy/', include('pihub.proxy.urls', namespace='proxy')),
     # catchall for anything unmatched goes into the common app
     url(r'', include('pihub.common.urls')),
 )

@@ -4,7 +4,12 @@ from django.conf import settings
 from django.http import HttpResponse
 import urllib2
 from urlparse import urljoin
+from urllib import urlretrieve
 
+
+def get_path(request, path):
+    url = urljoin('http://pypi.python.org/', path)
+    file = urlretrieve(url)
 
 def _get_file(package_name, version=None):
     
@@ -33,9 +38,6 @@ def _get_file(package_name, version=None):
     
     return contents
 
-
-def tarball(request, filename):
-    _get_file()
 
 def version_list(request, package_name):
     # see if we already have an index.html page cached
