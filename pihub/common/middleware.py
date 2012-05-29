@@ -19,5 +19,4 @@ class RedirectSetuptools(object):
         
         if uses_proxy and not request.path.startswith('/proxy'):
             return redirect( '/proxy' + request.path )
-        
-        return request
+    
