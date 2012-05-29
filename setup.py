@@ -51,7 +51,7 @@ setup( name='pi-hub',
        packages=_packages,
        install_requires=_install_requires,
        scripts=[
-            'scripts/manage',
+           # 'scripts/manage',
        ],
        data_files=_data_files,
  )
