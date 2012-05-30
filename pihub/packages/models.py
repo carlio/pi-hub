@@ -1,7 +1,5 @@
 
 from django.db import models
-from pihub.packages.metadata import HEADER_META_ALL
-import re
 
 class Pkg(models.Model):
     # named Pkg to avoid conflicts with the 'package' keyword...
@@ -24,7 +22,6 @@ class ReleaseData(models.Model):
     release = models.ForeignKey(Release)
     summary = models.TextField(null=True, blank=True)
     
-    metadata_version = models.CharField(max_length=200, null=True, blank=True)
     name = models.CharField(max_length=200, null=True, blank=True)
     version = models.CharField(max_length=200, null=True, blank=True)
     platform = models.CharField(max_length=200, null=True, blank=True)
@@ -47,7 +44,8 @@ class ReleaseData(models.Model):
     requires_dist = models.CharField(max_length=200, null=True, blank=True)
     provides_dist = models.CharField(max_length=200, null=True, blank=True)
     obsoletes_dist = models.CharField(max_length=200, null=True, blank=True)
-    project_url = models.CharField(max_length=200, null=True, blank=True)
+    project_url = models.URLField(null=True, blank=True)
+    docs_url = models.URLField(null=True, blank=True)
 
     def __unicode__(self):
         return 'Data for %s' % self.release
@@ -60,12 +58,13 @@ class ReleaseUrl(models.Model):
     url = models.URLField()
     packagetype = models.CharField(max_length=20)
     filename = models.CharField(max_length=100)
-    size = models.IntegerField()
+    size = models.IntegerField(null=True, blank=True)
     md5_digest = models.CharField(max_length=32)
-    downloads = models.IntegerField()
+    downloads = models.IntegerField(null=True, blank=True)
     has_sig = models.BooleanField()
     python_version = models.CharField(max_length=50)
     comment_text = models.TextField(null=True, blank=True)
+    upload_time = models.DateTimeField(null=True, blank=True)
     
     def __unicode__(self):
         return 'URL for %s' % self.release
