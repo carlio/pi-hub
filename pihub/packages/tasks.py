@@ -39,6 +39,8 @@ def fetch_release_info(release):
     data = client.release_data(package_name, version)
     release_data = ReleaseData(release=release)
     for key, value in data.iteritems():
+        if value == 'UNKNOWN':
+            continue
         if hasattr(release_data, key):
             setattr(release_data, key, value)
     release_data.save()
@@ -47,8 +49,10 @@ def fetch_release_info(release):
     release_url = ReleaseUrl(release=release)
     for url in urls:
         for key, value in url.iteritems():
+            if value == 'UNKNOWN':
+                continue
+            
             if key == 'upload_time':
-                value
                 release_url.upload_time = value.replace(tzinfo=pytz.UTC)
             
             elif hasattr(release_url, key):
