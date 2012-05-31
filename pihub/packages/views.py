@@ -27,7 +27,6 @@ def download(request, package_name, file_name):
     pkg = get_object_or_404(Pkg, name=package_name)
     release_url = get_object_or_404(ReleaseUrl, filename=file_name, release__pkg=pkg)
     
-    file_on_disk = get_binary(release_url)
+    filepath = get_binary(release_url)
     
-    with open(file_on_disk) as f:
-        return HttpResponse(FileIterWrapper(f))    
+    return HttpResponse(FileIterWrapper(open(filepath)))    

@@ -26,15 +26,20 @@ def get_binary(release_url):
     else:
         # see if we have already cached it
         cache_dir = os.path.join(settings.PACKAGE_DIRECTORY, 'cache')
-        filepath = os.path.join(local_dir, pkg_dir, release_url.filename )
+        filepath = os.path.join(cache_dir, pkg_dir, release_url.filename )
         if os.path.exists(filepath):
             return filepath
         
         # now check PyPI
         # TODO: this is very naive URL fetching
-        url = urljoin('http://pypi.python.org/simple/', pkg.name, release_url.filename)
+        url = release_url.url
+        
         contents = urllib2.urlopen(url).read()
-        os.makedirs( os.path.join(cache_dir, pkg_dir ) )
+        pkg_dir = os.path.join(cache_dir, pkg_dir )
+        
+        if not os.path.exists(pkg_dir):
+            os.makedirs( pkg_dir )
+            
         with open( filepath, 'w') as f:
             f.write(contents)
     
