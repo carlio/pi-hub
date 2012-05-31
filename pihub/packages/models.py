@@ -4,6 +4,10 @@ from django.db import models
 class Pkg(models.Model):
     # named Pkg to avoid conflicts with the 'package' keyword...
     name = models.CharField(max_length=100)
+    
+    # whether or not this package is private (ie, it has been uploaded
+    # only to this pihub server) or if it is publicly available on PyPI
+    private = models.BooleanField()
 
     def __unicode__(self):
         return self.name
