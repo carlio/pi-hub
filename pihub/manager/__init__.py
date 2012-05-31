@@ -11,7 +11,7 @@ class NotFound(Exception):
     pass
 
 
-def get_binary(release_url):
+def get_binary_path(release_url):
     
     pkg = release_url.release.pkg
     pkg_dir = slugify(pkg.name)
