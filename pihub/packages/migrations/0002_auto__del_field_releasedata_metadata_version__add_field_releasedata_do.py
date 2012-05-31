@@ -8,8 +8,6 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Deleting field 'ReleaseData.metadata_version'
-        db.delete_column('packages_releasedata', 'metadata_version')
 
         # Adding field 'ReleaseData.docs_url'
         db.add_column('packages_releasedata', 'docs_url',
@@ -21,10 +19,6 @@ class Migration(SchemaMigration):
         db.alter_column('packages_releasedata', 'project_url', self.gf('django.db.models.fields.URLField')(max_length=200, null=True))
 
     def backwards(self, orm):
-        # Adding field 'ReleaseData.metadata_version'
-        db.add_column('packages_releasedata', 'metadata_version',
-                      self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True),
-                      keep_default=False)
 
         # Deleting field 'ReleaseData.docs_url'
         db.delete_column('packages_releasedata', 'docs_url')
