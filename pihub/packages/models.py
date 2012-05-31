@@ -30,7 +30,7 @@ class ReleaseData(models.Model):
     version = models.CharField(max_length=200, null=True, blank=True)
     platform = models.CharField(max_length=200, null=True, blank=True)
     supported_platform = models.CharField(max_length=200, null=True, blank=True)
-    description = models.CharField(max_length=200, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     keywords = models.CharField(max_length=200, null=True, blank=True)
     home_page = models.CharField(max_length=200, null=True, blank=True)
     author = models.CharField(max_length=200, null=True, blank=True)
