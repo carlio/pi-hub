@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+import datetime
 from south.db import db
 from south.v2 import SchemaMigration
+from django.db import models
 
 
 class Migration(SchemaMigration):
@@ -26,7 +28,6 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('release', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['packages.Release'])),
             ('summary', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('metadata_version', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
             ('version', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
             ('platform', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
@@ -49,7 +50,8 @@ class Migration(SchemaMigration):
             ('requires_dist', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
             ('provides_dist', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
             ('obsoletes_dist', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
-            ('project_url', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
+            ('project_url', self.gf('django.db.models.fields.URLField')(max_length=200, null=True, blank=True)),
+            ('docs_url', self.gf('django.db.models.fields.URLField')(max_length=200, null=True, blank=True)),
         ))
         db.send_create_signal('packages', ['ReleaseData'])
 
@@ -60,12 +62,13 @@ class Migration(SchemaMigration):
             ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
             ('packagetype', self.gf('django.db.models.fields.CharField')(max_length=20)),
             ('filename', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('size', self.gf('django.db.models.fields.IntegerField')()),
+            ('size', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('md5_digest', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('downloads', self.gf('django.db.models.fields.IntegerField')()),
+            ('downloads', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('has_sig', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('python_version', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('comment_text', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
+            ('upload_time', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
         ))
         db.send_create_signal('packages', ['ReleaseUrl'])
 
@@ -102,6 +105,7 @@ class Migration(SchemaMigration):
             'author_email': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'classifier': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'docs_url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'download_url': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'home_page': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -109,12 +113,11 @@ class Migration(SchemaMigration):
             'license': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'maintainer': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'maintainer_email': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
-            'metadata_version': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'obsoletes': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'obsoletes_dist': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'platform': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
-            'project_url': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
+            'project_url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'provides': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'provides_dist': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'release': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['packages.Release']"}),
@@ -129,7 +132,7 @@ class Migration(SchemaMigration):
         'packages.releaseurl': {
             'Meta': {'object_name': 'ReleaseUrl'},
             'comment_text': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'downloads': ('django.db.models.fields.IntegerField', [], {}),
+            'downloads': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'filename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'has_sig': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -137,7 +140,8 @@ class Migration(SchemaMigration):
             'packagetype': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
             'python_version': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'release': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['packages.Release']"}),
-            'size': ('django.db.models.fields.IntegerField', [], {}),
+            'size': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'upload_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
         }
     }
