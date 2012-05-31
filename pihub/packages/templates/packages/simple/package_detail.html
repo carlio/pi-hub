@@ -1,0 +1,18 @@
+<html>
+<head>
+  <title>Links for {{ pkg.name }}</title>
+</head>
+
+<body>
+  <h1>Links for {{ pkg.name }}</h1>
+  
+  {% for release in releases %}
+    {% for url in release.releaseurl_set.all %}
+      {% if url.filename %}
+        <a href='{% url packages:download pkg.name url.filename %}'>{{ url.filename }}</a><br/>
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+
+</body>
+</html>
