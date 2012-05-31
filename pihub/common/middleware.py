@@ -15,8 +15,10 @@ class RedirectSetuptools(object):
     def process_request(self, request):
         
         user_agent = request.META['HTTP_USER_AGENT']
-        uses_proxy = any( [ua.match(user_agent) for ua in _USER_AGENTS] )
+        requires_simple = any( [ua.match(user_agent) for ua in _USER_AGENTS] )
         
-        if uses_proxy and not request.path.startswith('/proxy'):
-            return redirect( '/proxy' + request.path )
+        if requires_simple:
+            if request.path.startswith('/packages/simple') or request.path.startswith('/packages/download'):
+                return 
+            return redirect( '/packages/simple' + request.path )
     
