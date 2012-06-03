@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block breadcrumbs %}
+   <a href="#">Packages</a>
+   <div class="breadcrumb_divider"></div>
+   <a class="current">{{ pkg.name }}</a>
+{% endblock %}
+
+
+{% block content %}
+
+<article class="module width_full">
+  <header>
+    <h3>{{ pkg.name }}</h3>
+  </header>
+  
+  <div class='tab_container'>
+   <div class='tab_content'>
+    <table class='tablesorter' cellspacing='0'>
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Release Date</th>
+          <th>Cached?</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        {% for data in release_datas %}
+          <tr>
+            <td>
+              <a href='{% url packages:release_detail pkg.name data.release.version %}'>
+                {{ data.release.version }}
+              </a>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+   </div>
+  </div>
+ 
+</article>
+
+{% endblock %}

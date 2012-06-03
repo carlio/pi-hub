@@ -57,5 +57,5 @@ def fetch_release_info(release):
             
             elif hasattr(release_url, key):
                 setattr(release_url, key, value)
-    release_url.save()
+        release_url.save()
     

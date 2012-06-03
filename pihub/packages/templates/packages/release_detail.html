@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block breadcrumbs %}
+   <a href="#">Packages</a>
+   <div class="breadcrumb_divider"></div>
+   <a href='{% url packages:package_detail pkg.name %}'>{{ pkg.name }}</a>
+   <div class="breadcrumb_divider"></div>
+   <a class='current'>{{ release.version }}</a>
+{% endblock %}
+
+{% block content %}
+
+<article class="module width_full">
+  <header>
+    <h3>{{ pkg.name }} - {{ release.version }}</h3>
+  </header>
+  
+  <div class="module_content">
+    {{ release_data.summary }}
+  </div>
+  
+</article>
+
+<article class="module width_half">
+  <header>
+    <h3>Package Information</h3>
+  </header>
+  
+  <div class="module_content">
+    <table>
+      <tr>
+        <td>Cocks</td>
+        <td>lalala</td>
+      </tr>
+    </table>
+    <dl>
+      <dt>Bilbbl</dt>
+      <dd>Msmaen</dd>
+    </dl>
+  </div>
+  
+</article>
+
+
+<article class="module width_half">
+  <header>
+    <h3>Descrption</h3>
+  </header>
+  
+  <div class="module_content">
+    <pre>
+      {{ release_data.description }}
+    </pre>
+  </div>
+  
+</article>
+
+{% endblock %}
