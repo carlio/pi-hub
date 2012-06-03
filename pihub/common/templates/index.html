@@ -11,16 +11,16 @@
     <article class="stats_overview package_stats">
         <div class="overview_today">
             <p class="overview_day">Packages</p>
-            <p class="overview_count">{{ package_count }}</p>
+            <p class="overview_count">{{ package_count|intcomma }}</p>
             <p class="overview_type">Package{{ package_count|pluralize }}</p>
-            <p class="overview_count">{{ release_count }}</p>
+            <p class="overview_count">{{ release_count|intcomma }}</p>
             <p class="overview_type">Release{{ release_count|pluralize }}</p>
         </div>
         <div class="overview_previous">
             <p class="overview_day">Private</p>
-            <p class="overview_count">{{ private_package_count }}</p>
+            <p class="overview_count">{{ private_package_count|intcomma }}</p>
             <p class="overview_type">Package{{ private_package_count|pluralize }}</p>
-            <p class="overview_count">{{ private_release_count }}</p>
+            <p class="overview_count">{{ private_release_count|intcomma }}</p>
             <p class="overview_type">Release{{ private_release_count|pluralize }}</p>
         </div>
     </article>
