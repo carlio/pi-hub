@@ -108,30 +108,48 @@
 			<dt>Keywords</dt>
 			<dd>{% if release_data.keywords %}{{ release_data.keywords }}{% else %}None specified{% endif %}</dd>
 			
-			<dt>requires</dt>
+			{% if release_data.requires %}
+			<dt>Requires</dt>
 			<dd>{{ release_data.requires }}</dd>
-			<dt>requires_python</dt>
+			{% endif %}
+			
+			{% if release_data.requires_python %}
+            <dt>Requires Python</dt>
             <dd>{{ release_data.requires_python }}</dd>
-            <dt>requires_dist</dt>
-            <dd>{{ release_data.requires_dist }}</dd>
-            <dt>requires_external</dt>
-            <dd>{{ release_data.requires_external }}</dd>
+            {% endif %}
             
-            <dt>provides</dt>
+            {% if release_data.requires_dist %}
+            <dt>Requires Dist</dt>
+            <dd>{{ release_data.requires_dist }}</dd>
+            {% endif %}
+            
+            {% if release_data.requires_external %}
+            <dt>Requires External</dt>
+            <dd>{{ release_data.requires_external }}</dd>
+            {% endif %}
+            
+            {% if release_data.provides %}
+            <dt>Provides</dt>
 			<dd>{{ release_data.provides }}</dd>
-			<dt>provides_dist</dt>
+            {% endif %}
+            
+			{% if release_data.provides_dist %}
+            <dt>Provides Dist</dt>
 			<dd>{{ release_data.provides_dist }}</dd>
+            {% endif %}
 			
-			<dt>obsoletes</dt>
+			{% if release_data.obsoletes %}
+            <dt>Obsoletes</dt>
             <dd>{{ release_data.obsoletes }}</dd>
-            <dt>obsoletes_dist</dt>
+            {% endif %}
+            
+            {% if release_data.obsoletes_dist %}
+            <dt>Obsoletes Dist</dt>
 			<dd>{{ release_data.obsoletes_dist }}</dd>
+			{% endif %}
 			
-            <dt>classifier</dt>
-            <dd>{{ release_data.classifier }}</dd>
 		</dl>
 	</div>
-
 </article>
 
   
