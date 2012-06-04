@@ -62,3 +62,16 @@ def release_detail(request, package_name, version):
              'license_url': license_url,
              'release_urls': release_urls,
              'description': description }
+
+
+@render_to('packages/search.html')
+def search(request):
+    if 't' not in request.GET:
+        return {}
+    
+    term = request.GET['t']
+    results = Pkg.objects.filter(name__icontains=term)
+        
+    # TODO: add haystack for full text searching of other attributes
+    return {'results': results}
+        

@@ -8,6 +8,7 @@ urlpatterns = patterns('pihub.packages.simple_views',
 urlpatterns += patterns('pihub.packages.views',
     url(r'^download/(?P<package_name>.+)/(?P<file_name>.+)$', 'download', name='download'),    
     url(r'^(?P<package_name>.+)/$', 'package_detail', name='package_detail'),
+    url(r'^search$', 'search', name='search'),
+    
     url(r'^(?P<package_name>.+)/(?P<version>.+)$', 'release_detail', name='release_detail'),
-
 )

@@ -51,8 +51,8 @@
 
 
 	<aside id="sidebar" class="column">
-		<form class="quick_search">
-			<input type="text" value="Search Packages"
+		<form class="quick_search" action='{% url packages:search %}' method='get'>
+			<input type="text" value="Search Packages" name='t'
 				onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
 		</form>
 		<hr />
