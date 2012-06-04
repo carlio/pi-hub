@@ -22,6 +22,10 @@ def package_detail(request, package_name):
     return { 'pkg': pkg, 'release_datas': release_datas }
 
 
+_LICENSE_URLS = {'BSD': 'http://en.wikipedia.org/wiki/BSD_licenses',
+                 }
+
+
 @render_to('packages/release_detail.html')
 def release_detail(request, package_name, version):
     
@@ -31,6 +35,9 @@ def release_detail(request, package_name, version):
     release_data = get_object_or_404(ReleaseData, release=release)
     release_urls = release.releaseurl_set.all()
     
+    license_url = _LICENSE_URLS.get(release_data.license, '')
+    
     return { 'pkg': pkg, 'release': release, 
              'release_data': release_data,
+             'license_url': license_url,
              'release_urls': release_urls }

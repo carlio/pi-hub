@@ -4,3 +4,21 @@ border: none;
 float: none;
 width: 100%;
 }
+
+.width_1_third {
+width: 36%;
+margin-right: 0;
+float: left;
+}
+
+.width_2_thirds {
+width: 56%;
+margin-right: 0;
+float: left;
+}
+
+dt.gap {
+    margin: 1em 0;
+    border-bottom: 1px dotted grey;
+}
+

@@ -22,30 +22,10 @@
   
 </article>
 
-<article class="module width_half">
-  <header>
-    <h3>Package Information</h3>
-  </header>
-  
-  <div class="module_content">
-    <table>
-      <tr>
-        <td>Cocks</td>
-        <td>lalala</td>
-      </tr>
-    </table>
-    <dl>
-      <dt>Bilbbl</dt>
-      <dd>Msmaen</dd>
-    </dl>
-  </div>
-  
-</article>
 
-
-<article class="module width_half">
+<article class="module width_2_thirds">
   <header>
-    <h3>Descrption</h3>
+    <h3>Description</h3>
   </header>
   
   <div class="module_content">
@@ -54,6 +34,110 @@
     </pre>
   </div>
   
+</article>
+
+<article class="module width_1_third">
+  <header>
+    <h3>Package Information</h3>
+  </header>
+
+	<div class="module_content">
+		<dl>
+            <dt>License</dt>
+            <dd>
+                <a href='{{ license_url }}'>
+                    {{ release_data.license }}
+                </a>
+            </dd>
+
+            <dt class='gap'></dt>
+            
+			<dt>Author</dt>
+			<dd>{{ release_data.author }}</dd>
+			<dt>Author Email</dt>
+			<dd>
+			  <a href='mailto:{{ release_data.author_email }}'>
+			    {{ release_data.author_email }}
+			  </a>
+			</dd>
+			{% if maintainer %}
+            <dt>maintainer</dt>
+            <dd>{{ release_data.maintainer }}</dd>
+            <dt>maintainer_email</dt>
+            <dd><a href='mailto:{{ release_data.maintainer_email }}'>{{ release_data.maintainer_email }}</a></dd>
+			{% endif %}
+			
+			<dt class='gap'></dt>
+			
+            <dt>Home Page</dt>
+            <dd>
+              {% if release_data.home_page %}
+              <a href='{{ release_data.home_page }}'>
+                {{ release_data.home_page }}
+              </a>
+              {% else %}
+              Not specified
+              {% endif %}
+            </dd>
+            
+            {% if release_data.download_url %}
+            <dt>Direct Download</dt>
+            <dd><a href='{{ release_data.download_url }}'>{{ release_data.download_url }}</a></dd>
+            {% endif %}
+            
+            {% if release_data.project_url %}
+            <dt>Project Url</dt>
+            <dd><a href='{{ release_data.project_url }}'>{{ release_data.project_url }}</a></dd>
+            {% endif %}
+
+            {% if release_data.docs_url %}
+            <dt>Documentation</dt>
+            <dd><a href='{{ release_data.docs_url }}'>{{ release_data.docs_url }}</a></dd>
+            {% endif %}
+            
+
+            <dt class='gap'></dt>
+			
+			<dt>Platform</dt>
+			<dd>{{ release_data.platform }}</dd>
+			<dt>Supported Platform</dt>
+			<dd>
+			  {% if release_data.supported_platform %}
+			    {{ release_data.supported_platform }}
+			  {% else %}
+			    None specified
+			  {% endif %}
+			</dd>
+			
+            <dt class='gap'></dt>
+            
+			<dt>Keywords</dt>
+			<dd>{{ release_data.keywords }}</dd>
+			
+			<dt>license</dt>
+			<dd>{{ release_data.license }}</dd>
+			<dt>requires</dt>
+			<dd>{{ release_data.requires }}</dd>
+			<dt>provides</dt>
+			<dd>{{ release_data.provides }}</dd>
+			<dt>obsoletes</dt>
+			<dd>{{ release_data.obsoletes }}</dd>
+			<dt>requires_python</dt>
+			<dd>{{ release_data.requires_python }}</dd>
+			<dt>requires_external</dt>
+			<dd>{{ release_data.requires_external }}</dd>
+			<dt>requires_dist</dt>
+			<dd>{{ release_data.requires_dist }}</dd>
+			<dt>provides_dist</dt>
+			<dd>{{ release_data.provides_dist }}</dd>
+			<dt>obsoletes_dist</dt>
+			<dd>{{ release_data.obsoletes_dist }}</dd>
+			
+            <dt>classifier</dt>
+            <dd>{{ release_data.classifier }}</dd>
+		</dl>
+	</div>
+
 </article>
 
 {% endblock %}
