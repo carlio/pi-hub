@@ -28,3 +28,6 @@ dt.gap {
     border-bottom: 1px dotted grey;
 }
 
+a:link, a:visited {
+ color: #227ACE;
+}
