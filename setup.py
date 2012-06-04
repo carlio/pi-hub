@@ -43,6 +43,7 @@ _install_requires = [
             'django-celery',
             'pyquery',
             'pytz',
+            'docutils',
             
             'django-supervisor',
             'flup',

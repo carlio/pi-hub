@@ -17,6 +17,12 @@ margin-right: 0;
 float: left;
 }
 
+.package_info {
+	width: 36%;
+	float: right;
+	
+}
+
 dt.gap {
     margin: 1em 0;
     border-bottom: 1px dotted grey;

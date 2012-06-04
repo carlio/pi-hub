@@ -1,8 +1,10 @@
+from annoying.decorators import render_to
+from django.shortcuts import get_object_or_404
+from django.utils.safestring import mark_safe
+from django.views.static import serve
+from docutils.core import publish_parts
 from pihub.manager import get_binary_path
 from pihub.packages.models import Pkg, ReleaseUrl, Release, ReleaseData
-from django.shortcuts import get_object_or_404
-from django.views.static import serve
-from annoying.decorators import render_to
 
 
 def download(request, package_name, file_name):
@@ -37,7 +39,26 @@ def release_detail(request, package_name, version):
     
     license_url = _LICENSE_URLS.get(release_data.license, '')
     
+    settings_overrides = {
+        'raw_enabled': 0,  # no raw HTML code
+        'file_insertion_enabled': 0,  # no file/URL access
+        'halt_level': 2,  # at warnings or errors, raise an exception
+        'report_level': 5,  # never report problems with the reST code
+    }
+
+    try:
+        parts = publish_parts(source=release_data.description,
+                              writer_name='html',
+                              settings_overrides=settings_overrides)
+        description = parts['body']
+    except:
+        description = '<pre>%s</pre>' % release_data.description
+    
+    description = mark_safe(description)
+    
+    
     return { 'pkg': pkg, 'release': release, 
              'release_data': release_data,
              'license_url': license_url,
-             'release_urls': release_urls }
+             'release_urls': release_urls,
+             'description': description }

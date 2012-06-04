@@ -23,20 +23,14 @@
 </article>
 
 
-<article class="module width_2_thirds">
+<article class="module width_full">
+
   <header>
     <h3>Description</h3>
   </header>
   
-  <div class="module_content">
-    <pre>
-      {{ release_data.description }}
-    </pre>
-  </div>
-  
-</article>
+<article class="module package_info">
 
-<article class="module width_1_third">
   <header>
     <h3>Package Information</h3>
   </header>
@@ -112,25 +106,25 @@
             <dt class='gap'></dt>
             
 			<dt>Keywords</dt>
-			<dd>{{ release_data.keywords }}</dd>
+			<dd>{% if release_data.keywords %}{{ release_data.keywords }}{% else %}None specified{% endif %}</dd>
 			
-			<dt>license</dt>
-			<dd>{{ release_data.license }}</dd>
 			<dt>requires</dt>
 			<dd>{{ release_data.requires }}</dd>
-			<dt>provides</dt>
-			<dd>{{ release_data.provides }}</dd>
-			<dt>obsoletes</dt>
-			<dd>{{ release_data.obsoletes }}</dd>
 			<dt>requires_python</dt>
-			<dd>{{ release_data.requires_python }}</dd>
-			<dt>requires_external</dt>
-			<dd>{{ release_data.requires_external }}</dd>
-			<dt>requires_dist</dt>
-			<dd>{{ release_data.requires_dist }}</dd>
+            <dd>{{ release_data.requires_python }}</dd>
+            <dt>requires_dist</dt>
+            <dd>{{ release_data.requires_dist }}</dd>
+            <dt>requires_external</dt>
+            <dd>{{ release_data.requires_external }}</dd>
+            
+            <dt>provides</dt>
+			<dd>{{ release_data.provides }}</dd>
 			<dt>provides_dist</dt>
 			<dd>{{ release_data.provides_dist }}</dd>
-			<dt>obsoletes_dist</dt>
+			
+			<dt>obsoletes</dt>
+            <dd>{{ release_data.obsoletes }}</dd>
+            <dt>obsoletes_dist</dt>
 			<dd>{{ release_data.obsoletes_dist }}</dd>
 			
             <dt>classifier</dt>
@@ -139,5 +133,15 @@
 	</div>
 
 </article>
+
+  
+  <div class="module_content">
+      {{ description }}
+  </div>
+
+</article>
+
+<div clear='both'></div>
+
 
 {% endblock %}
