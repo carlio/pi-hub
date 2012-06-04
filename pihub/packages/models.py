@@ -1,5 +1,6 @@
-
+from distutils.version import LooseVersion
 from django.db import models
+from functools import cmp_to_key
 
 class Pkg(models.Model):
     # named Pkg to avoid conflicts with the 'package' keyword...
@@ -20,10 +21,15 @@ class Release(models.Model):
     def __unicode__(self):
         return "%s==%s" % (self.pkg.name, self.version)
     
+def sort_release_list(release_list):
+    versions = [ (release.version, release) for release in release_list ]
+    versions = sorted(versions, key=lambda x: cmp_to_key( LooseVersion(x[0]) ) )
+    return [ x[1] for x in versions ]
+    
 
 class ReleaseData(models.Model):
     
-    release = models.ForeignKey(Release)
+    release = models.OneToOneField(Release)
     summary = models.TextField(null=True, blank=True)
     
     name = models.CharField(max_length=200, null=True, blank=True)

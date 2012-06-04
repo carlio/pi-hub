@@ -4,7 +4,8 @@ from django.utils.safestring import mark_safe
 from django.views.static import serve
 from docutils.core import publish_parts
 from pihub.manager import get_binary_path
-from pihub.packages.models import Pkg, ReleaseUrl, Release, ReleaseData
+from pihub.packages.models import Pkg, ReleaseUrl, Release, ReleaseData,\
+    sort_release_list
 
 
 def download(request, package_name, file_name):
@@ -20,7 +21,16 @@ def download(request, package_name, file_name):
 def package_detail(request, package_name):
     
     pkg = get_object_or_404(Pkg, name=package_name)
-    release_datas = ReleaseData.objects.filter(release__pkg=pkg)
+    releases = Release.objects.filter(pkg=pkg)
+    releases = sort_release_list(releases)
+    
+    release_datas = []
+    for release in releases:
+        try:
+            release_datas.append(release.releasedata)
+        except ReleaseData.DoesNotExist:
+            pass # TODO: figure out if this is just an artefact of a dev database
+
     return { 'pkg': pkg, 'release_datas': release_datas }
 
 
