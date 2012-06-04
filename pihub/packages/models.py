@@ -22,9 +22,7 @@ class Release(models.Model):
         return "%s==%s" % (self.pkg.name, self.version)
     
 def sort_release_list(release_list):
-    versions = [ (release.version, release) for release in release_list ]
-    versions = sorted(versions, key=lambda x: cmp_to_key( LooseVersion(x[0]) ) )
-    return [ x[1] for x in versions ]
+    return sorted(release_list, key=lambda x:LooseVersion(x.version), reverse=True)
     
 
 class ReleaseData(models.Model):
