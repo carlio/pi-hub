@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block breadcrumbs %}
+   <div class="breadcrumb_divider"></div>
+   <a href="#">Packages</a>
+   <div class="breadcrumb_divider"></div>
+   <a class="current">{{ pkg.name }}</a>
+{% endblock %}
+
+
+{% block content %}
+
+<article class="module width_full">
+  <header>
+    <h3>Package search</h3>
+  </header>
+  
+  <div class='tab_container'>
+   <div class='tab_content'>
+    <table class='tablesorter' cellspacing='0'>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Version</th>
+          <th>Release Date</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        {% for result in results %}
+          <tr>
+            <td>
+              <a href='{% url packages:package_detail result.name %}'>
+                {{ result.name }}
+              </a>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+   </div>
+  </div>
+ 
+</article>
+
+{% endblock %}
