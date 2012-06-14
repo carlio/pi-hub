@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block entire_page %}
+
+
+  <article id='please-wait' class="module width_full">
+    <header>
+      <h3></h3>
+    </header>
+    
+    <div class='module_content'>
+      <p>Please wait while PiHub initialises<span id='dots'>...</span></p>
+    </div>
+  </article>
+
+{% endblock %}
+
+
+{% block extra_scripts %}
+<script>
+  function change_dots() {
+	  var next_dots = ['..', '...', '....', '.'];
+	  var dots = $('#dots').text();
+	  $('#dots').text( next_dots[dots.length-1] );
+	  setTimeout(change_dots, 500);
+  }
+  function check_status() {
+	  $.getJSON('{% url fetch_status_index %}', function(response){
+		  if (response['fetched']) {
+			  document.location = document.location;
+		  } else {
+			  setTimeout(check_status, 200);
+		  }
+	  });
+  }
+  $(function () {
+	  change_dots();
+	  check_status();
+  });
+</script>
+{% endblock %}
