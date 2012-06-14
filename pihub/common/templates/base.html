@@ -30,7 +30,7 @@
 	<!-- end of header bar -->
 
 
-
+ {% block entire_page %}
 	<section id="secondary_bar">
 		<div class="user">
 			<p>
@@ -100,6 +100,8 @@
 	<section id="main" class="column">
       {% block content %}{% endblock %}
 	</section>
+	
+  {% endblock %}
 
 
 	{% block scripts %}

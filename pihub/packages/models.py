@@ -1,6 +1,16 @@
 from distutils.version import LooseVersion
 from django.db import models
-from functools import cmp_to_key
+
+
+class MirrorState(models.Model):
+    index_fetched = models.BooleanField()
+
+
+def get_mirror_state():
+    if MirrorState.objects.all().count() == 0:
+        return MirrorState.objects.create()
+    return MirrorState.objects.all()[0]
+
 
 class Pkg(models.Model):
     # named Pkg to avoid conflicts with the 'package' keyword...
@@ -39,7 +49,7 @@ class ReleaseData(models.Model):
     home_page = models.CharField(max_length=200, null=True, blank=True)
     author = models.CharField(max_length=200, null=True, blank=True)
     author_email = models.CharField(max_length=200, null=True, blank=True)
-    license = models.CharField(max_length=200, null=True, blank=True)
+    license = models.CharField(max_length=200, null=True, blank=True) #@ReservedAssignment
     classifier = models.CharField(max_length=200, null=True, blank=True)
     download_url = models.CharField(max_length=200, null=True, blank=True)
     requires = models.CharField(max_length=200, null=True, blank=True)
