@@ -1,12 +1,22 @@
-from celery.task import task
-import xmlrpclib
-from pihub.packages.models import Release, Pkg, ReleaseData, ReleaseUrl
+from celery.schedules import crontab
+from celery.task import task, periodic_task
+from pihub.packages.models import Release, Pkg, ReleaseData, ReleaseUrl, \
+    get_mirror_state, FetchStatus
 import logging
 import pytz
+import xmlrpclib
 
 
 def _get_client():
     return xmlrpclib.ServerProxy('http://pypi.python.org/pypi', use_datetime=True)
+
+
+@periodic_task(run_every=crontab(minute=0, hour=0))
+def check_fetch_index():
+    state = get_mirror_state()
+    state.index_fetch_status = FetchStatus.FETCHING
+    state.save()
+    fetch_index.delay()
 
 
 @task
@@ -14,7 +24,11 @@ def fetch_index():
     packages = _get_client().list_packages()
     for package_name in packages:
         pkg, _ = Pkg.objects.get_or_create(name=package_name)
-        fetch_releases.delay(pkg)
+        #fetch_releases.delay(pkg)
+        
+    state = get_mirror_state()
+    state.index_fetch_status = FetchStatus.COMPLETE
+    state.save()
         
 
 @task

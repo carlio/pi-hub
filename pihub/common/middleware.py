@@ -1,6 +1,6 @@
 import re
 from django.shortcuts import redirect, render
-from pihub.packages.models import get_mirror_state
+from pihub.packages.models import get_mirror_state, FetchStatus
 
 # TODO: figure out Python3 user agent
 _USER_AGENTS = map( re.compile, 
@@ -29,5 +29,5 @@ class WaitForIndexFetch(object):
     
     def process_request(self, request):
         if not any(map(request.path.startswith, ('/admin/', '/fetchstatus/'))):
-            if not get_mirror_state().index_fetched:
+            if get_mirror_state().index_fetch_status != FetchStatus.COMPLETE:
                 return render(request, 'please_wait.html')
