@@ -2,8 +2,18 @@ from distutils.version import LooseVersion
 from django.db import models
 
 
+class FetchStatus:
+    NOT_STARTED = 0
+    FETCHING = 1
+    COMPLETE = 2
+    CHOICES = ( (NOT_STARTED, 'Not Started'),
+                (FETCHING, 'Fetching'),
+                (COMPLETE, 'Complete'), )
+
+
 class MirrorState(models.Model):
-    index_fetched = models.BooleanField()
+    index_fetch_status = models.SmallIntegerField(choices=FetchStatus.CHOICES, 
+                                                  default=FetchStatus.NOT_STARTED)
 
 
 def get_mirror_state():
@@ -27,6 +37,8 @@ class Pkg(models.Model):
 class Release(models.Model):
     pkg = models.ForeignKey(Pkg)
     version = models.CharField(max_length=40)
+    fetch_status = models.SmallIntegerField(choices=FetchStatus.CHOICES, 
+                                            default=FetchStatus.NOT_STARTED)
     
     def __unicode__(self):
         return "%s==%s" % (self.pkg.name, self.version)
