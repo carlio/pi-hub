@@ -1,5 +1,5 @@
 from annoying.decorators import render_to, ajax_request
-from pihub.packages.models import Pkg, Release, get_mirror_state
+from pihub.packages.models import Pkg, Release, get_mirror_state, FetchStatus
 
 @render_to('index.html')
 def site_index(request):
@@ -11,4 +11,5 @@ def site_index(request):
     
 @ajax_request
 def fetch_status_index(request):
-    return {'fetched': get_mirror_state().index_fetched}
+    fetched = get_mirror_state().index_fetch_status == FetchStatus.COMPLETE
+    return {'fetched': fetched}
