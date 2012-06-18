@@ -7,9 +7,17 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        ReleaseUrl = orm['packages.ReleaseUrl']
-        for data in ReleaseUrl.objects.all():
-            data.save() # this will generate the hash value
+        query = """
+        update packages_releaseurl set field_hash=
+        md5(concat(
+        "url",packages_releaseurl.url,"packagetype",packages_releaseurl.packagetype,
+        "filename",packages_releaseurl.filename,"size",packages_releaseurl.size,
+        "md5_digest",packages_releaseurl.md5_digest,"downloads",packages_releaseurl.downloads,
+        "has_sig",packages_releaseurl.has_sig,"python_version",packages_releaseurl.python_version,
+        "comment_text",packages_releaseurl.comment_text,
+        "upload_time",packages_releaseurl.upload_time,))
+        """
+        db.execute(query)
 
     def backwards(self, orm):
         "Write your backwards methods here."

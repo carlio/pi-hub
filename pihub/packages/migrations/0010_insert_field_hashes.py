@@ -7,9 +7,24 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        ReleaseData = orm['packages.ReleaseData']
-        for data in ReleaseData.objects.all():
-            data.save() # this will generate the hash value
+        
+        query = """
+        update packages_releasedata set field_hash=
+        md5(concat("summary", packages_releasedata.summary,"name", packages_releasedata.name,"version", 
+        packages_releasedata.version,"platform", packages_releasedata.platform,"supported_platform", 
+        packages_releasedata.supported_platform,"description", packages_releasedata.description,"keywords",
+        packages_releasedata.keywords,"home_page", packages_releasedata.home_page,"author", 
+        packages_releasedata.author,"author_email", packages_releasedata.author_email,"license", 
+        packages_releasedata.license,"classifier", packages_releasedata.classifier,"download_url", 
+        packages_releasedata.download_url,"requires", packages_releasedata.requires,"provides", 
+        packages_releasedata.provides,"obsoletes", packages_releasedata.obsoletes,"maintainer", 
+        packages_releasedata.maintainer,"maintainer_email", packages_releasedata.maintainer_email,
+        "requires_python", packages_releasedata.requires_python,"requires_external", 
+        packages_releasedata.requires_external,"requires_dist", packages_releasedata.requires_dist,"provides_dist", 
+        packages_releasedata.provides_dist,"obsoletes_dist", packages_releasedata.obsoletes_dist,"project_url", 
+        packages_releasedata.project_url,"docs_url", packages_releasedata.docs_url))
+        """
+        db.execute(query)
 
     def backwards(self, orm):
         pass
