@@ -1,5 +1,6 @@
 from distutils.version import LooseVersion
 from django.db import models
+from hashlib import md5
 
 
 class FetchStatus:
@@ -54,8 +55,32 @@ class Release(models.Model):
 def sort_release_list(release_list):
     return sorted(release_list, key=lambda x:LooseVersion(x.version), reverse=True)
     
+    
+class FieldHash(models.Model):
+    class Meta:
+        abstract = True
 
-class ReleaseData(models.Model):
+    field_hash = models.CharField(max_length=32, unique=True, db_index=True)
+    
+    def save(self, force_insert=False, force_update=False, using=None):
+        self.field_hash = self.calculate_hash()
+        models.Model.save(self, force_insert=force_insert, force_update=force_update, using=using)
+    
+    def calculate_hash(self):
+        hash_val = md5()
+        for field in self._meta.fields:
+            if field.name in ('release', 'field_hash'):
+                continue
+            value = getattr(self, field.name)
+            hash_val.update(field.name)
+            if value is None:
+                continue
+            hash_val.update(str(value))
+        return hash_val.hexdigest()
+        
+
+
+class ReleaseData(FieldHash):
     
     release = models.OneToOneField(Release)
     summary = models.TextField(null=True, blank=True)
@@ -82,15 +107,16 @@ class ReleaseData(models.Model):
     requires_dist = models.CharField(max_length=200, null=True, blank=True)
     provides_dist = models.CharField(max_length=200, null=True, blank=True)
     obsoletes_dist = models.CharField(max_length=200, null=True, blank=True)
-    project_url = models.URLField(null=True, blank=True)
-    docs_url = models.URLField(null=True, blank=True)
+    project_url = models.CharField(max_length=200, null=True, blank=True)
+    docs_url = models.CharField(max_length=200, null=True, blank=True)
+        
 
     def __unicode__(self):
         return 'Data for %s' % self.release
 
 
     
-class ReleaseUrl(models.Model):
+class ReleaseUrl(FieldHash):
     release = models.ForeignKey(Release)
     
     url = models.URLField()
