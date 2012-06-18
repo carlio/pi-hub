@@ -29,6 +29,11 @@ class Pkg(models.Model):
     # whether or not this package is private (ie, it has been uploaded
     # only to this pihub server) or if it is publicly available on PyPI
     private = models.BooleanField()
+    
+    # if this is not a private package, this field indicates whether we
+    # have pulled the release list from PyPI
+    fetch_status = models.SmallIntegerField(choices=FetchStatus.CHOICES,
+                                            default=FetchStatus.NOT_STARTED)
 
     def __unicode__(self):
         return self.name
@@ -37,6 +42,9 @@ class Pkg(models.Model):
 class Release(models.Model):
     pkg = models.ForeignKey(Pkg)
     version = models.CharField(max_length=40)
+    
+    # indicates whether we have pulled the releaese data and URLs for
+    # this release from PyPI yet
     fetch_status = models.SmallIntegerField(choices=FetchStatus.CHOICES, 
                                             default=FetchStatus.NOT_STARTED)
     

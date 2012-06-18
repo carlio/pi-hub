@@ -23,26 +23,45 @@ def check_fetch_index():
 def fetch_index():
     packages = _get_client().list_packages()
     for package_name in packages:
-        pkg, _ = Pkg.objects.get_or_create(name=package_name)
-        #fetch_releases.delay(pkg)
+        Pkg.objects.get_or_create(name=package_name)
         
     state = get_mirror_state()
     state.index_fetch_status = FetchStatus.COMPLETE
     state.save()
+ 
+    fetch_releases.delay()
         
 
 @task
-def fetch_releases(pkg):
+def fetch_releases():
+    pkgs = Pkg.objects.filter(fetch_status=FetchStatus.NOT_STARTED)
+    pkg_count = pkgs.count()
+    chunk_count = (pkg_count/100) + 1
+    for i in range(chunk_count+1):
+        fetch_releases_for_packages.delay( pkgs[i, i+100] )
+
+
+@task
+def fetch_releases_for_packages(pkgs):  
+    
+    pkgs.update(fetch_status=FetchStatus.FETCHING)
+    call = xmlrpclib.MultiCall(_get_client())
+    
+    for pkg in pkgs:
+        call.package_releases(pkg.name, True)
+
     try:
-        versions = _get_client().package_releases(pkg.name, True)
+        pkgs_versions = zip(pkgs, call())
     except xmlrpclib.Fault, err:
         logging.error("XMLRPC Fault: code=%s, message=%s" % (err.faultCode, err.faultString))
-    else:
+        pkgs.update(fetch_status=FetchStatus.NOT_STARTED)
+        return
+      
+    for pkg, versions in pkgs_versions:
         for version in versions:
             release, _ = Release.objects.get_or_create(version=version, pkg=pkg)
             fetch_release_info.delay(release)
-
-
+            
 
 @task
 def fetch_release_info(release):
