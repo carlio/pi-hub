@@ -15,7 +15,7 @@ class Migration(DataMigration):
         "md5_digest",packages_releaseurl.md5_digest,"downloads",packages_releaseurl.downloads,
         "has_sig",packages_releaseurl.has_sig,"python_version",packages_releaseurl.python_version,
         "comment_text",packages_releaseurl.comment_text,
-        "upload_time",packages_releaseurl.upload_time,))
+        "upload_time",packages_releaseurl.upload_time))
         """
         db.execute(query)
 
