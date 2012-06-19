@@ -27,8 +27,10 @@ def fetch_index():
     Pkg.objects.filter(private=False).delete()
     
     packages = _get_client().list_packages()
+    pkg_list = []
     for package_name in packages:
-        Pkg.objects.create(name=package_name)
+        pkg_list.append(Pkg(name=package_name))
+    Pkg.objects.bulk_create(pkg_list)
         
     state = get_mirror_state()
     state.index_fetch_status = FetchStatus.COMPLETE
