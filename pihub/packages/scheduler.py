@@ -9,14 +9,11 @@ from pihub.packages.models import get_mirror_state, FetchStatus
 
 class ImmediateFirstEntry(schedulers.ModelEntry):
 
-
     def is_due(self):
         if self.name == 'pihub.packages.tasks.check_fetch_index':
             return get_mirror_state().index_fetch_status == FetchStatus.NOT_STARTED, 0
         return super(ImmediateFirstEntry, self).is_due()
 
-    def _default_now(self):
-        return None
 
 
 class Scheduler(schedulers.DatabaseScheduler):

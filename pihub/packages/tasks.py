@@ -21,9 +21,14 @@ def check_fetch_index():
 
 @task
 def fetch_index():
+    # clean out the old packages so we don't need to do
+    # expensive get_or_create calls each time
+    # but make sure we leave private packages intact
+    Pkg.objects.filter(private=False).delete()
+    
     packages = _get_client().list_packages()
     for package_name in packages:
-        Pkg.objects.get_or_create(name=package_name)
+        Pkg.objects.create(name=package_name)
         
     state = get_mirror_state()
     state.index_fetch_status = FetchStatus.COMPLETE
