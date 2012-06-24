@@ -29,6 +29,8 @@ def fetch_index():
     packages = _get_client().list_packages()
     pkg_list = []
     for package_name in packages:
+        # TODO: this needs to be broken up when using sqlite - see
+        # https://docs.djangoproject.com/en/dev/ref/models/querysets/#django.db.models.query.QuerySet.bulk_create
         pkg_list.append(Pkg(name=package_name))
     Pkg.objects.bulk_create(pkg_list)
         
