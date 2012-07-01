@@ -21,7 +21,7 @@ class Migration(DataMigration):
                           'field_name': field_name,
                           'old_value': old_value,
                           'new_value': new_value}
-                query = "UPDATE packages_%(db_name)s SET %(field_name)s='%(new_value)s' WHERE %(field_name)s=%(old_value)s"
+                query = "UPDATE packages_%(db_name)s SET %(field_name)s='%(new_value)s' WHERE %(field_name)s='%(old_value)s'"
                 query = query % params
                 db.execute(query)
         
