@@ -40,7 +40,6 @@ _LICENSE_URLS = {'BSD': 'http://en.wikipedia.org/wiki/BSD_licenses',
 
 @render_to('packages/release_detail.html')
 def release_detail(request, package_name, version):
-    
     pkg = get_object_or_404(Pkg, name=package_name)
     release = get_object_or_404(Release, pkg=pkg, version=version)
     
