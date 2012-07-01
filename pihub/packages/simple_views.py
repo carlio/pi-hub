@@ -4,6 +4,9 @@ from annoying.decorators import render_to
 from django.http import HttpResponse
 import requests
 from pyquery import PyQuery as pq
+from pihub.packages.tasks import fetch_releases_for_packages
+
+
 
 def get_index_for_package(request, pkg):
     
@@ -36,9 +39,9 @@ def package_detail(request, package_name):
         return redirect('packages:simple_detail', pkg.name)
 
     if pkg.fetch_status != FetchStatus.COMPLETE:
-        # if we haven't scraped the content yet, then simply 
-        # fetch the page from pypi as a temporary measure
-        return get_index_for_package(request, pkg)
+        # if we haven't scraped the content yet, then fetch it!
+        fetch_releases_for_packages(Pkg.objects.filter(pk=pkg.id))
+        pkg = Pkg.objects.get(pk=pkg.id)
     
     return {'pkg': pkg, 'releases': pkg.release_set.all() }
 

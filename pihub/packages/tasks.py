@@ -51,7 +51,7 @@ def fetch_releases():
 
 
 @task
-def fetch_releases_for_packages(pkgs):  
+def fetch_releases_for_packages(pkgs, async=True):  
     
     pkgs.update(fetch_status=FetchStatus.FETCHING)
     call = xmlrpclib.MultiCall(_get_client())
@@ -69,7 +69,12 @@ def fetch_releases_for_packages(pkgs):
     for pkg, versions in pkgs_versions:
         for version in versions:
             release, _ = Release.objects.get_or_create(version=version, pkg=pkg)
-            fetch_release_info.delay(release)
+            if async:
+                fetch_release_info.delay(release)
+            else:
+                fetch_release_info(release)
+                
+    pkgs.update(fetch_status=FetchStatus.COMPLETE)
             
 
 @task
