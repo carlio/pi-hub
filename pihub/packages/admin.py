@@ -8,9 +8,12 @@ class FieldHashAdmin(admin.ModelAdmin):
 
 class PkgAdmin(admin.ModelAdmin):
     search_fields = ('name',)
+    
+class ReleaseInfoAdmin(FieldHashAdmin):
+    search_fields = ('release__pkg__name', )
 
 admin.site.register(Pkg, PkgAdmin)
 admin.site.register(Release)
-admin.site.register(ReleaseData, FieldHashAdmin)
-admin.site.register(ReleaseUrl, FieldHashAdmin)
+admin.site.register(ReleaseData, ReleaseInfoAdmin)
+admin.site.register(ReleaseUrl, ReleaseInfoAdmin)
 admin.site.register(MirrorState)
