@@ -36,19 +36,17 @@ for scheme in INSTALL_SCHEMES.values():
     
 # common dependencies
 _install_requires = [
+            'celery',
             'django',
             'django-annoying',
             'django-gubbins',
             'django-haystack',
-            'south',
-            'celery',
             'django-celery',
+            'docutils',
             'pyquery',
             'pytz',
-            'docutils',
-            
-            'django-supervisor',
-            'flup',
+            'requests'
+            'south',
        ]
 
 setup( name='pi-hub',

@@ -87,12 +87,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.humanize',
-    
     'south',
     'haystack',
     'celery', 'djcelery',
-    'djsupervisor',
-    
     'pihub.common',
     'pihub.packages',
 ]
