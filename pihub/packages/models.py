@@ -32,6 +32,9 @@ class Pkg(models.Model):
     # have pulled the release list from PyPI
     fetch_status = FetchStatus(default=FetchStatus.NOT_STARTED)
     
+    def get_pypi_index(self):
+        return 'http://pypi.python.org/simple/%s/' % self.name
+    
     @property
     def latest_release(self):
         releases = sort_release_list(self.release_set())

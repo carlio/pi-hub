@@ -1,0 +1,14 @@
+<html>
+<head>
+  <title>Links for {{ pkg.name }}</title>
+</head>
+
+<body>
+  <h1>Links for {{ pkg.name }}</h1>
+  
+  {% for download_url, filename in files %}
+    <a href='{{ download_url }}'>{{ filename }}</a><br/>
+  {% endfor %}
+
+</body>
+</html>

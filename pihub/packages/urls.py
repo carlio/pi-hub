@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, url
 
 urlpatterns = patterns('pihub.packages.simple_views',
     url(r'^simple/$', 'package_index', name='simple_index'),
-    url(r'^simple/(?P<package_name>.+)/?$', 'package_detail', name='simple_detail'),
+    url(r'^simple/(?P<package_name>.+)/$', 'package_detail', name='simple_detail'),
 )
 
 urlpatterns += patterns('pihub.packages.views',

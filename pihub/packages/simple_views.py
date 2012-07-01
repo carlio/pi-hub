@@ -1,8 +1,30 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from pihub.packages.models import Pkg, FetchStatus
 from annoying.decorators import render_to
 from django.http import HttpResponse
+import requests
+from pyquery import PyQuery as pq
 
+def get_index_for_package(request, pkg):
+    
+    url = pkg.get_pypi_index()
+    response = requests.get(url)
+    
+    doc = pq(response.text)
+    
+    files = []
+    for anchor in doc('a'):
+        a = pq(anchor)
+        if a.attr('href').startswith('../../packages/'):
+            # this is an actual package
+            download_url = ''
+            filename = a.text()
+            files.append( (download_url, filename) )
+    
+    ctx = { 'pkg': pkg, 'files': files }
+    return render(request, 'packages/simple/proxied_package_detail.html', ctx)
+
+    
 
 @render_to('packages/simple/package_detail.html')
 def package_detail(request, package_name):
@@ -14,7 +36,9 @@ def package_detail(request, package_name):
         return redirect('packages:simple_detail', pkg.name)
 
     if pkg.fetch_status != FetchStatus.COMPLETE:
-        return HttpResponse('hello')
+        # if we haven't scraped the content yet, then simply 
+        # fetch the page from pypi as a temporary measure
+        return get_index_for_package(request, pkg)
     
     return {'pkg': pkg, 'releases': pkg.release_set.all() }
 
