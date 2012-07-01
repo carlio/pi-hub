@@ -45,7 +45,7 @@ _install_requires = [
             'docutils',
             'pyquery',
             'pytz',
-            'requests'
+            'requests',
             'south',
        ]
 
