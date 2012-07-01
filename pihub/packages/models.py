@@ -1,20 +1,17 @@
 from distutils.version import LooseVersion
 from django.db import models
+from gubbins.db.field import EnumField
 from hashlib import md5
 
 
-class FetchStatus:
-    NOT_STARTED = 0
-    FETCHING = 1
-    COMPLETE = 2
-    CHOICES = ( (NOT_STARTED, 'Not Started'),
-                (FETCHING, 'Fetching'),
-                (COMPLETE, 'Complete'), )
+class FetchStatus(EnumField):
+    NOT_STARTED = 'not_started'
+    FETCHING = 'fetching'
+    COMPLETE = 'complete'
 
 
 class MirrorState(models.Model):
-    index_fetch_status = models.SmallIntegerField(choices=FetchStatus.CHOICES, 
-                                                  default=FetchStatus.NOT_STARTED)
+    index_fetch_status = FetchStatus(default=FetchStatus.NOT_STARTED)
 
 
 def get_mirror_state():
@@ -33,8 +30,7 @@ class Pkg(models.Model):
     
     # if this is not a private package, this field indicates whether we
     # have pulled the release list from PyPI
-    fetch_status = models.SmallIntegerField(choices=FetchStatus.CHOICES,
-                                            default=FetchStatus.NOT_STARTED)
+    fetch_status = FetchStatus(default=FetchStatus.NOT_STARTED)
     
     @property
     def latest_release(self):
@@ -53,8 +49,7 @@ class Release(models.Model):
     
     # indicates whether we have pulled the releaese data and URLs for
     # this release from PyPI yet
-    fetch_status = models.SmallIntegerField(choices=FetchStatus.CHOICES, 
-                                            default=FetchStatus.NOT_STARTED)
+    fetch_status = FetchStatus(default=FetchStatus.NOT_STARTED)
     
     def __unicode__(self):
         return "%s==%s" % (self.pkg.name, self.version)
