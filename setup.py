@@ -38,6 +38,7 @@ for scheme in INSTALL_SCHEMES.values():
 _install_requires = [
             'django',
             'django-annoying',
+            'django-gubbins',
             'django-haystack',
             'south',
             'celery',

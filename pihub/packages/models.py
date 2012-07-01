@@ -35,7 +35,14 @@ class Pkg(models.Model):
     # have pulled the release list from PyPI
     fetch_status = models.SmallIntegerField(choices=FetchStatus.CHOICES,
                                             default=FetchStatus.NOT_STARTED)
-
+    
+    @property
+    def latest_release(self):
+        releases = sort_release_list(self.release_set())
+        if len(releases) == 0:
+            return None
+        return releases[0]
+    
     def __unicode__(self):
         return self.name
     
