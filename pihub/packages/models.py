@@ -1,4 +1,5 @@
 from distutils.version import LooseVersion
+from django.conf import settings
 from django.db import models
 from gubbins.db.field import EnumField
 from hashlib import md5
@@ -33,7 +34,7 @@ class Pkg(models.Model):
     fetch_status = FetchStatus(default=FetchStatus.NOT_STARTED)
     
     def get_pypi_index(self):
-        return 'http://pypi.python.org/simple/%s/' % self.name
+        return '%s%s/' % (settings.PYPI_PREFIX, self.name)
     
     @property
     def latest_release(self):
@@ -80,7 +81,11 @@ class FieldHash(models.Model):
             hash_val.update(field.name)
             if value is None:
                 continue
-            hash_val.update(str(value))
+            if not isinstance(value, (str, unicode)):
+                value = str(value)
+            else:
+                value = value.encode('utf-8')
+            hash_val.update(value)
         return hash_val.hexdigest()
         
 
@@ -99,7 +104,7 @@ class ReleaseData(FieldHash):
     home_page = models.CharField(max_length=200, null=True, blank=True)
     author = models.CharField(max_length=200, null=True, blank=True)
     author_email = models.CharField(max_length=200, null=True, blank=True)
-    license = models.CharField(max_length=200, null=True, blank=True) #@ReservedAssignment
+    license = models.TextField(null=True, blank=True)  #@ReservedAssignment
     classifier = models.CharField(max_length=200, null=True, blank=True)
     download_url = models.CharField(max_length=200, null=True, blank=True)
     requires = models.CharField(max_length=200, null=True, blank=True)

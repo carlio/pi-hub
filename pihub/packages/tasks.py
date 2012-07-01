@@ -78,6 +78,7 @@ def fetch_releases_for_packages(pkgs, async=True):
 
 @task
 def fetch_release_info(release):
+    print 'fetching %s'% release
     package_name = release.pkg.name
     version = release.version 
     
@@ -89,11 +90,14 @@ def fetch_release_info(release):
             continue
         if hasattr(release_data, key):
             setattr(release_data, key, value)
-    release_data.save()
+    
+    if not ReleaseData.objects.filter(field_hash=release_data.calculate_hash()).exists():
+        release_data.save()
     
     urls = client.release_urls(package_name, version)
     release_url = ReleaseUrl(release=release)
     for url in urls:
+        print url
         for key, value in url.iteritems():
             if value == 'UNKNOWN':
                 continue
@@ -103,5 +107,7 @@ def fetch_release_info(release):
             
             elif hasattr(release_url, key):
                 setattr(release_url, key, value)
-        release_url.save()
+                
+        if not ReleaseUrl.objects.filter(field_hash=release_url.calculate_hash()).exists():
+            release_url.save()
     
