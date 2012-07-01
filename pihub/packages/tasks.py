@@ -45,9 +45,8 @@ def fetch_index():
 def fetch_releases():
     pkgs = Pkg.objects.filter(fetch_status=FetchStatus.NOT_STARTED)
     pkg_count = pkgs.count()
-    chunk_count = (pkg_count/100) + 1
-    for i in range(chunk_count+1):
-        fetch_releases_for_packages.delay( pkgs[i, i+100] )
+    for i in range(0, pkg_count, 100):
+        fetch_releases_for_packages.delay( pkgs[i:i+100] )
 
 
 @task

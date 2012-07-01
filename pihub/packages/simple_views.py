@@ -40,7 +40,7 @@ def package_detail(request, package_name):
 
     if pkg.fetch_status != FetchStatus.COMPLETE:
         # if we haven't scraped the content yet, then fetch it!
-        fetch_releases_for_packages(Pkg.objects.filter(pk=pkg.id))
+        fetch_releases_for_packages(Pkg.objects.filter(pk=pkg.id), async=False)
         pkg = Pkg.objects.get(pk=pkg.id)
     
     return {'pkg': pkg, 'releases': pkg.release_set.all() }
