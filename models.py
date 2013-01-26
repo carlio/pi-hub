@@ -1,6 +1,7 @@
 from distutils.version import LooseVersion
 from django.db import models
-
+from django.utils import timezone
+from pypackages import pypi
 
 
 class PythonPackage(models.Model):
@@ -8,12 +9,22 @@ class PythonPackage(models.Model):
 
     name = models.CharField(max_length=100)
 
+    last_sync = models.DateTimeField(null=True, blank=True)
+
     @property
     def latest_release(self):
         if self.release_set().count() == 0:
             return None
         releases = sort_release_list(self.release_set())
         return releases[0]
+
+    def sync(self):
+        releases = pypi.find_all_releases(self.name)
+        for release in releases:
+            PackageRelease.objects.get_or_create(python_package=self, version=release)
+
+        self.last_sync = timezone.now()
+        self.save()
 
     def __unicode__(self):
         return self.name

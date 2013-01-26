@@ -3,9 +3,7 @@
 import os
 from pyquery import PyQuery as pq
 from django.test import TestCase
-from pypackages.models import PythonPackage
-from pypackages.pypi import PackageFinder
-
+from pypackages import pypi
 
 class PackageFinderTest(TestCase):
 
@@ -40,20 +38,17 @@ class PackageFinderTest(TestCase):
 
     def _test_find_releases(self, package_name, expected_releases):
 
-        pkg = PythonPackage.objects.create(name=package_name)
-
         html = self._get_file('%s.html' % package_name)
         page = pq(html)
 
-        releases = PackageFinder()._find_releases_on_page(pkg, page)
+        found_releases = pypi._find_releases_on_page(package_name, page)
 
-        for release in releases:
-            self.assertIn( release.version, expected_releases )
+        for release in found_releases:
+            self.assertIn( release, expected_releases )
 
         # at this point, we could just check the lists have equivalent length to ensure they are equal, however
         # it is easier for debugging to get an explicit message
-        release_versions = [ r.version for r in releases ]
         for release in expected_releases:
-            self.assertIn( release, release_versions )
+            self.assertIn( release, found_releases )
 
-        self.assertEqual( len(expected_releases), len(releases) )
+        self.assertEqual( len(expected_releases), len(found_releases) )
