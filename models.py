@@ -1,4 +1,5 @@
 from distutils.version import LooseVersion
+from urlparse import urljoin
 from django.db import models
 from django.utils import timezone
 from pypackages import pypi
@@ -42,6 +43,13 @@ class PackageRelease(models.Model):
     version = models.CharField(max_length=40)
     """ The version of this particular release. While in theory it'd be lovely if they all followed some
         actual standard, it's rather hit-and-miss what can be in here, hence the freeform nature of the field. """
+
+    def get_pypi_url(self):
+        """
+        FIXME Needs love. Does awful things. Can't find best thing to use for path component validation, so using optimism...
+        """
+        BASE_URL = 'http://pypi.python.org/pypi'
+        return urljoin(BASE_URL, self.package_name, self.version)
 
     def __unicode__(self):
         return "%s==%s" % (self.python_package.name, self.version)
