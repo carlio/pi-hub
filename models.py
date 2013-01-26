@@ -33,7 +33,7 @@ class PackageRelease(models.Model):
         actual standard, it's rather hit-and-miss what can be in here, hence the freeform nature of the field. """
 
     def __unicode__(self):
-        return "%s==%s" % (self.pkg.name, self.version)
+        return "%s==%s" % (self.python_package.name, self.version)
 
 
 def sort_release_list(release_list):
