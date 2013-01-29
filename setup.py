@@ -7,9 +7,8 @@ import os
 import re
 
 
-_version = "0.%s.dev" % int(time.time())
+_version = "0.1.%sdev" % int(time.time())
 _packages = find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"])
-
 
 
 
