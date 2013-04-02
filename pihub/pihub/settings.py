@@ -103,6 +103,9 @@ CELERY_IMPORTS = (
 CELERY_LOG_LEVEL = 'INFO'
 
 
+SCRAPER_USER_AGENT = 'Pi-Hub bot - 1.0'
+
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
